@@ -5,9 +5,12 @@
             "label": "C/C++: g++.exe build active file",
             "command": "g++.exe",
             "args": [
+                "-Wall",
+                "-fopenmp",
                 "-fdiagnostics-color=always",
+                "-I${fileDirname}\\include",
                 "-g",
-                "${fileDirname}\\lib\\*.cpp",
+                "${fileDirname}\\*.cpp",
                 "-o",
                 "${fileDirname}\\sim.exe"
             ],
