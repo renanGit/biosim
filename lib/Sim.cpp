@@ -9,15 +9,18 @@ namespace sim
 {
     void Sim::Init()
     {
-        grid = new Grid(GRID_SIZE_X, GRID_SIZE_Y);
+        grid = new Grid(Config::GetGridSizeX(), Config::GetGridSizeY());
         grid->Init();
 
-        agents.resize(MAX_AGENTS);
+        agents.resize(Config::GetMaxAgents());
         Position posNotSet(UINT16_MAX, UINT16_MAX, Direction::W);
 
         for (auto& agent : agents)
         {
-            Position startPos(rng.GetRNGuint16() % grid->SizeX(), rng.GetRNGuint16() % grid->SizeY(), static_cast<Direction>(rng.GetRNGuint16() % Direction::D_COUNT));
+            Position startPos(
+                rng.GetRNGuint16() % grid->SizeX(),
+                rng.GetRNGuint16() % grid->SizeY(),
+                static_cast<Direction>(rng.GetRNGuint16() % Direction::D_COUNT));
             while (agent.initialPos == posNotSet)
             {
                 if (!grid->Occupied(startPos))

@@ -29,7 +29,7 @@ namespace sim
 
         inline uint16_t GetGenomeSize()
         {
-            return std::max<uint16_t>(MIN_GENES, (GetRNGuint16() + 1) % MAX_GENES);
+            return std::max<uint16_t>(Config::GetMinGenes(), (GetRNGuint16() + 1) % Config::GetMaxGenes());
         }
 
         inline float GetRNGWeight()

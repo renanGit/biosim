@@ -94,13 +94,13 @@ namespace sim
         int idx = 0;
         for (const auto& g : graph)
         {
-            printf("%d: %llu ", idx++, g);
+            printf("%d: %lu ", idx++, g);
         }
         std::cout << std::endl;
         idx = 0;
         for (const auto& n : nodes)
         {
-            printf("%d: %llu ", idx++, n);
+            printf("%d: %lu ", idx++, n);
         }
         std::cout << std::endl;
         for (const auto& kv : aggEdges)
@@ -113,7 +113,7 @@ namespace sim
         }
         for (const auto& a : actionCnt)
         {
-            printf("%llu ", a);
+            printf("%lu ", a);
         }
         std::cout << std::endl;
 
@@ -127,7 +127,7 @@ namespace sim
 
     std::vector<long> Analysis::GraphAnalysis(NeuralNet& nnet)
     {
-        std::vector<long> nodes(MAX_GENES + TYPE_COUNT, 0);
+        std::vector<long> nodes(Config::GetMaxGenes() + TYPE_COUNT, 0);
         std::queue<uint16_t> q;
         std::unordered_set<uint16_t> visited;
 
@@ -155,12 +155,12 @@ namespace sim
                 }
             }
         }
-        return std::move(nodes);
+        return nodes;
     }
 
     std::vector<long> Analysis::GenomeAnalysis(Genome& genome)
     {
-        std::vector<long> nodes(MAX_GENES + TYPE_COUNT, 0);
+        std::vector<long> nodes(Config::GetMaxGenes() + TYPE_COUNT, 0);
 
         for (const auto& gene : genome.genome)
         {
@@ -170,7 +170,7 @@ namespace sim
             }
             nodes[gene.sinkIdx]++;
         }
-        return std::move(nodes);
+        return nodes;
     }
 
     std::map<std::pair<uint16_t, uint16_t>, std::pair<float, uint16_t>> Analysis::WeightAnalysis(Genome& genome)
@@ -187,6 +187,6 @@ namespace sim
             }
         }
 
-        return std::move(edges);
+        return edges;
     }
 }

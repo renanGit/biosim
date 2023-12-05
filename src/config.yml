@@ -1,0 +1,16 @@
+Grid:
+  SizeX: "160"
+  SizeY: "160"
+
+Agent:
+  Max: "1000"
+
+Neuron:
+  Max: "128"
+
+Genome:
+  Max: "128"
+  Min: "128"
+
+Activation:
+  Threshold: "0.6"

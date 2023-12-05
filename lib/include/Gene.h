@@ -18,8 +18,8 @@ namespace sim
 
         inline static void MaxCapGene(Gene& gene)
         {
-            gene.sourceIdx %= (gene.sourceType == NEURON ? MAX_NEURONS : Sensors::S_COUNT);
-            gene.sinkIdx %= (gene.sinkType == NEURON ? MAX_NEURONS : Actions::A_COUNT);
+            gene.sourceIdx %= (gene.sourceType == NEURON ? Config::GetMaxNuerons() : Sensors::S_COUNT);
+            gene.sinkIdx %= (gene.sinkType == NEURON ? Config::GetMaxNuerons() : Actions::A_COUNT);
         }
 
         // Everything is left aligned, offset all idx to not overlap

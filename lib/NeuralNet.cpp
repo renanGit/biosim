@@ -2,6 +2,7 @@
 #include <queue>
 #include <math.h>
 #include <utility>
+#include <unordered_set>
 
 #include "NeuralNet.h"
 #include "Gene.h"
@@ -123,7 +124,7 @@ namespace sim
             q.push(s);
         }
 
-        std::set<uint16_t> layerX;
+        std::unordered_set<uint16_t> layerX;
         while (!q.empty())
         {
             uint16_t n = q.front();
@@ -168,11 +169,11 @@ namespace sim
         Position newPos = agentPos;
 
         // First, perform rotation
-        if (actions[Actions::ROTATE_LEFT] > ACTIVATION_THRESHOLD)
+        if (actions[Actions::ROTATE_LEFT] > Config::GetActivationThreshold())
         {
             newPos.dir = static_cast<Direction>((static_cast<int>(newPos.dir) - 1) % Direction::D_COUNT);
         }
-        if (actions[Actions::ROTATE_RIGHT] > ACTIVATION_THRESHOLD)
+        if (actions[Actions::ROTATE_RIGHT] > Config::GetActivationThreshold())
         {
             newPos.dir = static_cast<Direction>((static_cast<int>(newPos.dir) + 1) % Direction::D_COUNT);
         }
@@ -189,7 +190,7 @@ namespace sim
         
         for (const auto& move : moves)
         {
-            if (actions[move.first] > ACTIVATION_THRESHOLD)
+            if (actions[move.first] > Config::GetActivationThreshold())
             {
                 newPos.coordX += move.second[0];
                 newPos.coordY += move.second[1];

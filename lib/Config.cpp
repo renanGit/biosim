@@ -1,20 +1,20 @@
 #include "Config.h"
-#include "Types.h"
 #include "Random.h"
 
 namespace sim
 {
-    const int MAX_AGENTS = 1000;
-    const int MAX_NEURONS = 128;
+    // Defaults
 
-    // Sizes are not guaranteed, because the graph will trim invalid genes
-    const int MAX_GENES = 128;
-    const int MIN_GENES = 128;
-
-    const float ACTIVATION_THRESHOLD = 0.6f;
-
-    const int GRID_SIZE_X = 128;
-    const int GRID_SIZE_Y = 128;
+    int Config::maxAgents = 1000;
+    int Config::maxNeurons = 128;
+        
+    int Config::maxGenes = 128;
+    int Config::minGenes = 128;
+        
+    int Config::gridSizeX = 128;
+    int Config::gridSizeY = 128;
+        
+    float Config::activationThreshold = 0.6f;
 
     RNG rng;
     #pragma omp threadprivate(rng)
