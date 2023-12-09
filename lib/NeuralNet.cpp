@@ -200,7 +200,7 @@ namespace sim
         if (!grid->OutOfBounds(newPos) && !grid->Occupied(newPos))
         {
             grid->Set(newPos, agentPos);
-            agentPos = std::move(newPos);
+            agentPos.Set(newPos);
         }
     }
 }

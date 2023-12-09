@@ -7,6 +7,7 @@
             "args": [
                 "-Wall",
                 "-fopenmp",
+                "-pthread",
                 "-fdiagnostics-color=always",
                 "-I${fileDirname}\\include",
                 "-g",

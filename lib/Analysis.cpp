@@ -12,6 +12,7 @@
 #include "Genome.h"
 #include "Types.h"
 #include "Config.h"
+#include "Sim.h"
 
 namespace sim
 {
@@ -46,7 +47,7 @@ namespace sim
         }
     }
 
-    void Analysis::SimpleRun()
+    void Analysis::SingleAgentRun()
     {
         std::unordered_map<int, std::pair<int, std::chrono::nanoseconds>> measure;
         long before = 0;
@@ -57,6 +58,7 @@ namespace sim
         std::vector<long> actionCnt(Actions::A_COUNT, 0);
         
         Grid grid(128, 128);
+        grid.Init();
 
         auto start = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < 100000; i++)
@@ -123,6 +125,12 @@ namespace sim
         {
             printf("G: %d O: %d A: %.4f\n", m.first, m.second.first, (m.second.second.count() / (float)m.second.first) / 1000000.f);
         }
+    }
+
+    void Analysis::SimRun()
+    {
+        Sim sim;
+        sim.Init();
     }
 
     std::vector<long> Analysis::GraphAnalysis(NeuralNet& nnet)

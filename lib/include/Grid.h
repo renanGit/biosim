@@ -9,7 +9,7 @@ namespace sim
     class Position
     {
     public:
-        Position() {}
+        Position() : coordX(UINT16_MAX), coordY(UINT16_MAX), dir(Direction::W) {}
         Position(uint16_t x, uint16_t y, Direction dir) : coordX(x), coordY(y), dir(dir) {}
         inline void MoveForward()
         {
@@ -17,6 +17,13 @@ namespace sim
             coordX += m[0];
             coordY += m[1];
         }
+        inline void Set(const Position& newPos)
+        {
+            coordX = newPos.coordX;
+            coordY = newPos.coordY;
+            dir = newPos.dir;
+        }
+    public:
         uint16_t coordX;
         uint16_t coordY;
         Direction dir;
