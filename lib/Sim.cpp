@@ -31,26 +31,28 @@ namespace sim
                     agent.initialPos.Set(startPos);
                     agent.pos.Set(startPos);
                     agent.nnet.grid = grid;
-                    movementProducer.emplace(agent.pos);
+                    ProduceMovement(agent.pos);
                     break;
                 }
                 startPos.coordX = rng.GetRNGuint16() % SIZE_X;
                 startPos.coordY = rng.GetRNGuint16() % SIZE_Y;
             }
         }
-        movementProducer.emplace(posNotSet); // A delimiter
+        ProduceMovement(posNotSet); // A delimiter
     }
 
     void Sim::Run(uint32_t stepsPerEpoch, uint32_t epochs)
     {
         if (runner.joinable())
         {
+            killSig = true;
             runner.join();
+            Reset();
         }
-        runner = std::thread(ThreadRun, this, stepsPerEpoch, epochs);
+        runner = std::thread(&Sim::ThreadRun, this, this, stepsPerEpoch, epochs);
     }
 
-    void Sim::ThreadRun(uint32_t stepsPerEpoch, uint32_t epochs)
+    void Sim::ThreadRun(Sim* sim, uint32_t stepsPerEpoch, uint32_t epochs)
     {
         Position posNotSet(UINT16_MAX, UINT16_MAX, Direction::W);
 
@@ -58,12 +60,18 @@ namespace sim
         {
             for (uint32_t step = 0; step < stepsPerEpoch; step++)
             {
-                for (auto& agent : agents)
+                if (sim->killSig)
+                {
+                    return;
+                }
+
+                for (auto& agent : sim->agents)
                 {
                     agent.SimAgent(step);
-                    movementProducer.emplace(agent.pos);
+
+                    sim->ProduceMovement(agent.pos);
                 }
-                movementProducer.emplace(posNotSet); // A delimiter, to know the end of a step
+                sim->ProduceMovement(posNotSet); // A delimiter
             }
 
             // Mate

@@ -5,6 +5,7 @@
 #include <chrono>
 #include <vector>
 #include <algorithm>
+#include <thread>
 
 #include "Analysis.h"
 #include "Agent.h"
@@ -131,6 +132,10 @@ namespace sim
     {
         Sim sim;
         sim.Init();
+        sim.Run(100, 1);
+        std::this_thread::sleep_for(std::chrono::microseconds(1000));
+        sim.~Sim();
+        printf("ProducerPtr %d\n", sim.producerPtr.load());
     }
 
     std::vector<long> Analysis::GraphAnalysis(NeuralNet& nnet)

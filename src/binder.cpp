@@ -83,10 +83,7 @@ PYBIND11_MODULE(biosim, handle)
     pybind11::class_<sim::Sim>(handle, "Sim")
         .def(pybind11::init<>())
         .def("Init", &sim::Sim::Init)
-        .def("Run", [](uint32_t steps, uint32_t epochs){
-            pybind11::gil_scoped_release release;
-            &sim::Sim::Run(steps, epochs);
-        })
+        .def("Run", &sim::Sim::Run)
         .def("CanPollMovement", &sim::Sim::CanPollMovement)
         .def("ConsumeMovement", &sim::Sim::ConsumeMovement);
 }

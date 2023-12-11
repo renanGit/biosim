@@ -29,6 +29,13 @@ namespace sim
         Direction dir;
 
         bool operator==(const Position& rhs) { return coordX == rhs.coordX && coordY == rhs.coordY; }
+        Position& operator=(const Position& other)
+        {
+            coordX = other.coordX;
+            coordY = other.coordY;
+            dir = other.dir;
+            return *this;
+        }
     };
 
     class Grid
