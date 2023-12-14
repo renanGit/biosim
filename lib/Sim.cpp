@@ -13,11 +13,15 @@ namespace sim
         grid->Init();
 
         agents.resize(Config::GetMaxAgents());
+        for (auto& agent : agents)
+        {
+            agent.Init();
+        }
         Position posNotSet(UINT16_MAX, UINT16_MAX, Direction::W);
         
         const int SIZE_X = grid->SizeX();
         const int SIZE_Y = grid->SizeY();
-        
+
         for (auto& agent : agents)
         {
             Position startPos(

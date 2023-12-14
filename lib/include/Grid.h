@@ -23,6 +23,10 @@ namespace sim
             coordY = newPos.coordY;
             dir = newPos.dir;
         }
+        inline std::string to_string()
+        {
+            return "coordX: " + std::to_string(coordX) + " coordY: " + std::to_string(coordY) + " dir: " + std::to_string(dir);
+        }
     public:
         uint16_t coordX;
         uint16_t coordY;

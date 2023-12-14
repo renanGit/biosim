@@ -80,10 +80,23 @@ PYBIND11_MODULE(biosim, handle)
     handle.def("cpp_add", [](float a, float b) { return a + b; });
     handle.def("Setup", &Setup);
     handle.def("PrintConfig", &sim::Config::to_string);
+    
+    pybind11::enum_<sim::Direction>(handle, "Direction")
+        .value("W", sim::Direction::W).value("NW", sim::Direction::NW)
+        .value("N", sim::Direction::N).value("NE", sim::Direction::NE)
+        .value("E", sim::Direction::E).value("SE", sim::Direction::SE)
+        .value("S", sim::Direction::S).value("SW", sim::Direction::SW)
+        .export_values();
+
+    pybind11::class_<sim::Position>(handle, "Position")
+        .def_readwrite("coordX", &sim::Position::coordX)
+        .def_readwrite("coordY", &sim::Position::coordY)
+        .def_readwrite("direction", &sim::Position::dir);
+    
     pybind11::class_<sim::Sim>(handle, "Sim")
         .def(pybind11::init<>())
         .def("Init", &sim::Sim::Init)
         .def("Run", &sim::Sim::Run)
         .def("CanPollMovement", &sim::Sim::CanPollMovement)
-        .def("ConsumeMovement", &sim::Sim::ConsumeMovement);
+        .def("ConsumeMovement", &sim::Sim::ConsumeMovement, pybind11::return_value_policy::reference);
 }
