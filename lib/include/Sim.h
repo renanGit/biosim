@@ -19,11 +19,10 @@ namespace sim
         Sim() : grid(nullptr), producerPtr(1), consumerPtr(0), killSig(false) {}
         ~Sim()
         {
-            if (runner.joinable())
+            if (producer.joinable())
             {
                 killSig = true;
-                runner.join();
-                Reset();
+                producer.join();
             }
             if (grid != nullptr)
             {
@@ -44,7 +43,12 @@ namespace sim
         }
     
     private:
-        void ThreadRun(Sim* sim, uint32_t stepsPerEpoch, uint32_t epochs);
+        void SetupGeneration();
+
+        static void ThreadRun(Sim* sim, uint32_t stepsPerEpoch, uint32_t epochs);
+        void NewGeneration();
+        // Parent 1 is treated as dominant
+        void Mate(const Agent& parent1, const Agent& parent2, Agent& child);
 
         inline void ProduceMovement(const Position& pos)
         {
@@ -74,7 +78,7 @@ namespace sim
     private:
         Grid* grid;
         std::vector<Agent> agents;
-        std::thread runner;
+        std::thread producer;
 
         // Circular producer/consumer
         std::array<Position, 10000> movements;

@@ -130,12 +130,14 @@ namespace sim
 
     void Analysis::SimRun()
     {
-        Sim sim;
-        sim.Init();
-        sim.Run(100, 1);
+        Sim* sim = new Sim();
+        sim->Init();
+        sim->Run(100, 10);
         std::this_thread::sleep_for(std::chrono::microseconds(1000));
-        sim.~Sim();
-        printf("ProducerPtr %d\n", sim.producerPtr.load());
+        while (sim->producer.joinable())
+            if (sim->CanPollMovement())
+                sim->ConsumeMovement();
+        delete sim;
     }
 
     std::vector<long> Analysis::GraphAnalysis(NeuralNet& nnet)

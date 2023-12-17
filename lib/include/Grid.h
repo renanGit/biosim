@@ -23,7 +23,7 @@ namespace sim
             coordY = newPos.coordY;
             dir = newPos.dir;
         }
-        inline std::string to_string()
+        inline std::string to_string() const
         {
             return "coordX: " + std::to_string(coordX) + " coordY: " + std::to_string(coordY) + " dir: " + std::to_string(dir);
         }
@@ -33,6 +33,7 @@ namespace sim
         Direction dir;
 
         bool operator==(const Position& rhs) { return coordX == rhs.coordX && coordY == rhs.coordY; }
+        bool operator!=(const Position& rhs) { return coordX != rhs.coordX && coordY != rhs.coordY; }
         Position& operator=(const Position& other)
         {
             coordX = other.coordX;

@@ -6,7 +6,7 @@
 import pybind11
 from setuptools import setup, Extension
 
-# cpp_args = ['-fopenmp']
+cpp_args = []
 sfc_module = Extension(
     'biosim',
     sources=[
@@ -18,8 +18,8 @@ sfc_module = Extension(
         'lib/Sim.cpp'
     ],
     language='c++',
-    include_dirs=[pybind11.get_include(), 'lib/include'],
-    # extra_compile_args=cpp_args,
+    include_dirs=[pybind11.get_include(), 'lib/include', 'src/'],
+    extra_compile_args=cpp_args,
 )
 
 setup(

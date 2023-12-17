@@ -2,5 +2,5 @@ src/biosim.egg-info/*
 build/*
 dist/*
 sim.exe
-sim.gif
+*.gif
 pyenv/*

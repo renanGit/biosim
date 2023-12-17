@@ -9,11 +9,8 @@ namespace sim
     class Agent
     {
     public:
-        Agent()
-        {
-            Position _initialPos(UINT16_MAX, UINT16_MAX, Direction::W);
-            initialPos = std::move(_initialPos);
-        }
+        Agent() : initialPos(UINT16_MAX, UINT16_MAX, Direction::W), stepsTaken(0)
+        { }
         void Init();
         void SimAgent(uint32_t simStep);
         void WireGenome();
@@ -24,6 +21,8 @@ namespace sim
         Genome genome;
         Position initialPos;
         Position pos;
+        // A criteria for survival
+        uint32_t stepsTaken;
 
         int genomeSizeBefore;
         int genomeSizeAfter;

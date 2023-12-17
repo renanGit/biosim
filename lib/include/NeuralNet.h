@@ -26,7 +26,7 @@ namespace sim
         NeuralNet() : grid(nullptr) {}
         void BuildIndexMapping();
         void BuildNNet(const Genome& genome);
-        std::array<float, Actions::A_COUNT> FeedForward(uint32_t simStep, Position& agentPos);
+        std::array<float, Actions::A_COUNT> FeedForward(uint32_t simStep, const Position& agentPos);
         void ExecuteActions(const std::array<float, Actions::A_COUNT>& actions, Position& agentPos);
     private:
         // All sensor values will range [0.0, 1.0]

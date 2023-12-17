@@ -1,74 +1,71 @@
 #define PYBIND11_DETAILED_ERROR_MESSAGES
-#include <map>
-#include <string>
+
 #include <algorithm>
+#include <functional>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "binder.h"
 #include "Config.h"
 #include "Sim.h"
 
-enum Name
+void SetIntVal(std::string val, const std::map<const std::string, const std::string>& map, int& field)
 {
-    Activation=0,
-    Grid,
-    Agent,
-    Genome,
-    Neuron
-};
-
-std::map<const std::string, Name> nameMap =
+    if (map.find(val) != map.end())
+    {
+        field = std::stoi(map.at(val));
+    }
+}
+void SetFloatVal(std::string val, const std::map<const std::string, const std::string>& map, float& field)
 {
-    {"activation", Name::Activation},
-    {"grid", Name::Grid},
-    {"agent", Name::Agent},
-    {"genome", Name::Genome},
-    {"neuron", Name::Neuron}
-};
+    if (map.find(val) != map.end())
+    {
+        field = std::stof(map.at(val));
+    }
+}
 
 void Setup(const pybind11::dict& configs)
 {
-    auto valCheck = [](std::string val, const auto& map)
-    {
-        if (map.find(val) == map.end())
-        {
-            std::string tmp = "Unhandled config: " + val;
-            throw std::exception(tmp.c_str());
-        }
-    };
-
     for (const auto& config : configs)
     {
         std::string name = pybind11::cast<std::string>(config.first);
         std::transform(name.begin(), name.end(), name.begin(), [](unsigned char c){ return std::tolower(c); });
-        valCheck(name, nameMap);
-        
-        auto& tmp = pybind11::cast<std::map<const std::string, const std::string>>(config.second);
-        switch(nameMap[name])
+        if (nameMap.find(name) == nameMap.end())
+        {
+            continue;
+        }
+
+        const auto& tmp = pybind11::cast<std::map<const std::string, const std::string>>(config.second);
+        switch(nameMap.at(name))
         {
             case Name::Activation:
-                valCheck("Threshold", tmp);
-                sim::Config::activationThreshold = std::stof(tmp["Threshold"]);
+                SetFloatVal("Threshold", tmp, sim::Config::activationThreshold);
                 break;
             case Name::Grid:
-                valCheck("SizeX", tmp);
-                valCheck("SizeY", tmp);
-                sim::Config::gridSizeX = std::stoi(tmp["SizeX"]);
-                sim::Config::gridSizeY = std::stoi(tmp["SizeY"]);
+                SetIntVal("SizeX", tmp, sim::Config::gridSizeX);
+                SetIntVal("SizeY", tmp, sim::Config::gridSizeY);
                 break;
             case Name::Agent:
-                valCheck("Max", tmp);
-                sim::Config::maxAgents = std::stoi(tmp["Max"]);
+                SetIntVal("Max", tmp, sim::Config::maxAgents);
                 break;
             case Name::Neuron:
-                valCheck("Max", tmp);
-                sim::Config::maxNeurons = std::stoi(tmp["Max"]);
+                SetIntVal("Max", tmp, sim::Config::maxNeurons);
                 break;
             case Name::Genome:
-                valCheck("Max", tmp);
-                valCheck("Min", tmp);
-                sim::Config::maxGenes = std::stoi(tmp["Max"]);
-                sim::Config::minGenes = std::stoi(tmp["Min"]);
+                SetIntVal("Max", tmp, sim::Config::maxGenes);
+                SetIntVal("Min", tmp, sim::Config::minGenes);
+                break;
+            case Name::MateTopNPercent:
+                SetFloatVal("TopN", tmp, sim::Config::mateTopNPercent);
+                break;
+            case Name::MinDominantCutPercent:
+                SetFloatVal("Min", tmp, sim::Config::minDominantCutPercent);
+                break;
+            case Name::DistanceWeight:
+                SetFloatVal("Weight", tmp, sim::Config::distanceWeight);
+                break;
+            case Name::StepsTakenWeight:
+                SetFloatVal("Weight", tmp, sim::Config::stepsTakenWeight);
                 break;
         }
     }

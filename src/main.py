@@ -10,11 +10,6 @@ import biosim
 
 
 if __name__ == "__main__":
-    x = 5
-    y = 6
-    print(f"Adding {x} and {y} together.")
-    z = biosim.cpp_add(x, y)
-    print(f"Result is {z}")
     
     # biosim.PrintConfig()
     config = None
@@ -23,16 +18,12 @@ if __name__ == "__main__":
         config = yml
         biosim.Setup(yml)
 
+    biosim.PrintConfig()
     sim = biosim.Sim()
     sim.Init()
     steps = 100
-    sim.Run(steps, 1)
-    # biosim.PrintConfig()
-    # i = 0
-    # while sim.CanPollMovement():
-    #     pos = sim.ConsumeMovement()
-    #     print(i, pos.coordX, pos.coordY, pos.direction)
-    #     i += 1
+    epochs = 10
+    sim.Run(steps, epochs)
     
     sizeX = int(config["Grid"]["SizeX"])
     sizeY = int(config["Grid"]["SizeY"])
@@ -56,7 +47,7 @@ if __name__ == "__main__":
     ax.grid()
     plt.xlim(0, sizeX)
     plt.ylim(0, sizeY)
-    ani = FuncAnimation(fig, AnimationFunction, frames=steps, interval=200)
+    ani = FuncAnimation(fig, AnimationFunction, frames=steps * epochs, interval=200)
  
     writer = animation.PillowWriter(fps=5, metadata=dict(artist='Me'), bitrate=1800)
     ani.save('src/sim.gif', writer=writer)

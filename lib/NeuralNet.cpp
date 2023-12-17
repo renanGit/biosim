@@ -108,7 +108,7 @@ namespace sim
         return 1.0f;
     }
 
-    std::array<float, Actions::A_COUNT> NeuralNet::FeedForward(uint32_t simStep, Position& agentPos)
+    std::array<float, Actions::A_COUNT> NeuralNet::FeedForward(uint32_t simStep, const Position& agentPos)
     {
         std::array<float, Actions::A_COUNT> actionLevels;
         actionLevels.fill(0.0f);

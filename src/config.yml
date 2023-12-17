@@ -13,4 +13,16 @@ Genome:
   Min: "128"
 
 Activation:
-  Threshold: "0.6"
+  Threshold: "0.85"
+
+MateTopNPercent:
+  TopN: "0.3"
+
+MinDominantCutPercent:
+  Min: "0.6"
+
+DistanceWeight:
+  Weight: "0.8"
+
+StepsTakenWeight:
+  Weight: "0.2"

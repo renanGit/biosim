@@ -29,7 +29,7 @@ namespace sim
             gene.sinkIdx += gene.sinkType == NEURON ? TYPE_COUNT : Sensors::S_COUNT;
         }
 
-        inline std::string to_string()
+        inline std::string to_string() const
         {
             return std::to_string(sourceType) + " " + std::to_string(sourceIdx) + " " +
                 std::to_string(sinkType) + " " + std::to_string(sinkIdx) + " " + std::to_string(weight);

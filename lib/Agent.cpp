@@ -8,7 +8,10 @@ namespace sim
 {
     void Agent::Init()
     {
-        genome.GenerateGenome();
+        if (genome.genome.size() == 0)
+        {
+            genome.GenerateGenome();
+        }
         genomeSizeBefore = static_cast<int>(genome.genome.size());
         WireGenome();
         genomeSizeAfter = static_cast<int>(genome.genome.size());
@@ -16,8 +19,13 @@ namespace sim
 
     void Agent::SimAgent(uint32_t simStep)
     {
+        Position start = pos;
         const auto& actions = nnet.FeedForward(simStep, pos);
         nnet.ExecuteActions(actions, pos);
+        if (start != pos)
+        {
+            stepsTaken++;
+        }
     }
 
     void Agent::WireGenome()
