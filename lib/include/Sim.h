@@ -19,11 +19,7 @@ namespace sim
         Sim() : grid(nullptr), producerPtr(1), consumerPtr(0), killSig(false) {}
         ~Sim()
         {
-            if (producer.joinable())
-            {
-                killSig = true;
-                producer.join();
-            }
+            Reset();
             if (grid != nullptr)
             {
                 delete grid;
@@ -32,6 +28,21 @@ namespace sim
         }
         void Init();
         void Run(uint32_t stepsPerEpoch, uint32_t epochs);
+        inline void Reset()
+        {
+            if (producer.joinable())
+            {
+                killSig = true;
+                producer.join();
+                killSig = false;
+                producerPtr = 1;
+                consumerPtr = 0;
+                for (auto agent : agents)
+                {
+                    agent.pos = agent.initialPos;
+                }
+            }
+        }
 
         inline bool CanPollMovement() { return producerPtr != (consumerPtr + 1); }
         inline Position ConsumeMovement()
@@ -61,17 +72,6 @@ namespace sim
                 movements[producerPtr] = pos;
                 producerPtr++;
                 producerPtr = producerPtr % movements.size();
-            }
-        }
-
-        inline void Reset()
-        {
-            producerPtr = 1;
-            consumerPtr = 0;
-            killSig = false;
-            for (auto agent : agents)
-            {
-                agent.pos = agent.initialPos;
             }
         }
 

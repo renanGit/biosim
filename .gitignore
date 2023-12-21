@@ -4,3 +4,4 @@ dist/*
 sim.exe
 *.gif
 pyenv/*
+__pycache__

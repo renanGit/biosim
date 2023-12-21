@@ -57,13 +57,7 @@ namespace sim
 
     void Sim::Run(uint32_t stepsPerEpoch, uint32_t epochs)
     {
-        if (producer.joinable())
-        {
-            killSig = true;
-            producer.join();
-            Reset();
-        }
-        
+        Reset();
         printf("Steps per Epoch: %u, Epochs: %u\n", stepsPerEpoch, epochs);
         producer = std::thread(&Sim::ThreadRun, this, stepsPerEpoch, epochs);
     }

@@ -94,6 +94,7 @@ PYBIND11_MODULE(biosim, handle)
         .def(pybind11::init<>())
         .def("Init", &sim::Sim::Init)
         .def("Run", &sim::Sim::Run)
+        .def("Reset", &sim::Sim::Reset)
         .def("CanPollMovement", &sim::Sim::CanPollMovement)
         .def("ConsumeMovement", &sim::Sim::ConsumeMovement, pybind11::return_value_policy::reference);
 }
