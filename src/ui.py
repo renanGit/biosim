@@ -1,5 +1,5 @@
 import yaml, os, imageio, numpy as np
-from PySide6.QtWidgets import QMainWindow, QWidget, QPushButton, QGridLayout # QVBoxLayout, QHBoxLayout, 
+from PySide6.QtWidgets import QMainWindow, QWidget, QPushButton, QGridLayout
 from PySide6.QtCore import QPoint, QRect, QTimer, Qt, QSize
 from PySide6.QtGui import QPainter, QPointList, QImage
 
@@ -41,8 +41,9 @@ class PlotWidget(QWidget):
 
     def kill(self):
         self._sim.Reset()
+
+    def save(self):
         self._vid_writer.close()
-        self._timer.stop()
 
     # Gets called every time interval
     def frame(self):
@@ -58,10 +59,10 @@ class PlotWidget(QWidget):
         
         if len(self._points) > 0:
             self.update()
-            pixmap = self.grab()
-            qimg = pixmap.toImage().convertToFormat(QImage.Format_RGB888)
-            array = np.ndarray((qimg.height(), qimg.width(), 3), buffer=qimg.constBits(), strides=[qimg.bytesPerLine(), 3, 1], dtype=np.uint8)
             if not self._vid_writer.closed:
+                pixmap = self.grab()
+                qimg = pixmap.toImage().convertToFormat(QImage.Format_RGB888)
+                array = np.ndarray((qimg.height(), qimg.width(), 3), buffer=qimg.constBits(), strides=[qimg.bytesPerLine(), 3, 1], dtype=np.uint8)
                 self._vid_writer.append_data(array)
         else:
             self._timer.stop()
@@ -85,13 +86,17 @@ class MainWindow(QMainWindow):
         centralWidget = QWidget()
         self.plot_widget = PlotWidget()
         startButton = QPushButton("Start")
+        saveButton = QPushButton("Save")
         startButton.setFixedSize(100, 40)
+        saveButton.setFixedSize(100, 40)
         startButton.clicked.connect(self.run)
+        saveButton.clicked.connect(self.plot_widget.save)
 
         centralWidget.setLayout(QGridLayout())
         layout = centralWidget.layout()
-        layout.addWidget(self.plot_widget, 0, 0, Qt.AlignHCenter)
+        layout.addWidget(self.plot_widget, 0, 0, 1, 2, Qt.AlignHCenter)
         layout.addWidget(startButton, 1, 0, Qt.AlignHCenter)
+        layout.addWidget(saveButton, 1, 1, Qt.AlignHCenter)
 
         self.setCentralWidget(centralWidget)
 

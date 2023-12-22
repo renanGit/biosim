@@ -13,7 +13,8 @@ enum Name
     MateTopNPercent,
     MinDominantCutPercent,
     DistanceWeight,
-    StepsTakenWeight
+    StepsTakenWeight,
+    RotationsTakenWeight
 };
 
 const std::map<const std::string, Name> nameMap =
@@ -26,5 +27,6 @@ const std::map<const std::string, Name> nameMap =
     {"matetopnpercent", Name::MateTopNPercent},
     {"mindominantcutpercent", Name::MinDominantCutPercent},
     {"distanceweight", Name::DistanceWeight},
-    {"stepstakenweight", Name::StepsTakenWeight}
+    {"stepstakenweight", Name::StepsTakenWeight},
+    {"rotationstakenweight", Name::RotationsTakenWeight}
 };

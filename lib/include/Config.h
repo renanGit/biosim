@@ -22,14 +22,15 @@ namespace sim
         inline static float GetMinDominantCutPercent() { return minDominantCutPercent; }
         inline static float GetDistanceWeight() { return distanceWeight; }
         inline static float GetStepsTakenWeight() { return stepsTakenWeight; }
+        inline static float GetRotationsTakenWeight() { return rotationsTakenWeight; }
         
         inline static void to_string()
         {
             printf("Agents: [max %d], Neurons: [max %d], Genes: [max %d, min %d], Grid: [x %d, y %d], \n \
                 Activation: [threshold %0.2f], MateTopN: [%0.2f], MinDominantCutPercent: [%0.2f], \n \
-                DistanceWeight: [%0.2f], StepsTakenWeight: [%0.2f]\n",
+                DistanceWeight: [%0.2f], StepsTakenWeight: [%0.2f], RotationsTakenWeight: [%0.2f]\n",
                 maxAgents, maxNeurons, maxGenes, minGenes, gridSizeX, gridSizeY, activationThreshold,
-                mateTopNPercent, minDominantCutPercent, distanceWeight, stepsTakenWeight);
+                mateTopNPercent, minDominantCutPercent, distanceWeight, stepsTakenWeight, rotationsTakenWeight);
         }
 
         static int maxAgents;
@@ -54,5 +55,6 @@ namespace sim
          */
         static float distanceWeight;
         static float stepsTakenWeight;
+        static float rotationsTakenWeight;
     };
 }

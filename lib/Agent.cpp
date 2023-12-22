@@ -1,5 +1,5 @@
 #include <unordered_map>
-#include <vector>
+#include <unordered_set>
 
 #include "Agent.h"
 #include "Gene.h"
@@ -26,21 +26,25 @@ namespace sim
         {
             stepsTaken++;
         }
+        if (start.dir != pos.dir)
+        {
+            rotationsTaken++;
+        }
     }
 
     void Agent::WireGenome()
     {
-        std::unordered_map<uint16_t, std::vector<uint16_t>> backEdgeMap;
+        std::unordered_map<uint16_t, std::unordered_set<uint16_t>> backEdgeMap;
 
         for (auto& gene : genome.genome)
         {
             Gene::MaxCapGene(gene);
             Gene::OffsetGene(gene);
 
-            auto itr = backEdgeMap.emplace(std::pair<uint16_t, std::vector<uint16_t>>(gene.sinkIdx, { { gene.sourceIdx } }));
+            auto itr = backEdgeMap.emplace(std::pair<uint16_t, std::unordered_set<uint16_t>>(gene.sinkIdx, { { gene.sourceIdx } }));
             if (!itr.second)
             {
-                itr.first->second.push_back(gene.sourceIdx);
+                itr.first->second.emplace(gene.sourceIdx);
             }
         }
 

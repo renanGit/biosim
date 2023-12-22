@@ -20,8 +20,9 @@ namespace sim
 
     float Config::mateTopNPercent = 0.3f;
     float Config::minDominantCutPercent = 0.6f;
-    float Config::distanceWeight = 0.8f;
-    float Config::stepsTakenWeight = 0.2f;
+    float Config::distanceWeight = 0.5f;
+    float Config::stepsTakenWeight = 0.1f;
+    float Config::rotationsTakenWeight = 0.4f;
 
     RNG rng;
     #pragma omp threadprivate(rng)

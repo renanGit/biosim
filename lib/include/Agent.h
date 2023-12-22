@@ -9,7 +9,7 @@ namespace sim
     class Agent
     {
     public:
-        Agent() : initialPos(UINT16_MAX, UINT16_MAX, Direction::W), stepsTaken(0)
+        Agent() : initialPos(UINT16_MAX, UINT16_MAX, Direction::W), stepsTaken(0), rotationsTaken(0)
         { }
         void Init();
         void SimAgent(uint32_t simStep);
@@ -23,6 +23,7 @@ namespace sim
         Position pos;
         // A criteria for survival
         uint32_t stepsTaken;
+        uint32_t rotationsTaken;
 
         int genomeSizeBefore;
         int genomeSizeAfter;

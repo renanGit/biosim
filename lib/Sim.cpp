@@ -95,7 +95,7 @@ namespace sim
         auto CutPositions = [&](const auto& p, const float cutPercent, int& start, int& end)
         {
             int size = static_cast<int>(p.genome.genome.size());
-            start = std::min(static_cast<int>(std::floor(size * (1.0f - cutPercent))), rng.GetRNGuint16() % size);
+            start = std::max(0, rng.GetRNGuint16() % size - 1);
             end = std::min(static_cast<int>(start + std::ceil(size * cutPercent)), size);
         };
         
@@ -110,6 +110,7 @@ namespace sim
         childGenes.clear();
         childGenes.insert(childGenes.begin(), parent1.genome.genome.begin() + offset1, parent1.genome.genome.begin() + cutPos1);
         childGenes.insert(childGenes.end(), parent2.genome.genome.begin() + offset2, parent2.genome.genome.begin() + cutPos2);
+        std::random_shuffle(childGenes.begin(), childGenes.end());
         child.Init();
     }
 
@@ -126,7 +127,8 @@ namespace sim
             float deltaDist = static_cast<float>(std::sqrt(std::pow(std::abs(agent.initialPos.coordX - agent.pos.coordX), 2) +
                 std::pow(std::abs(agent.initialPos.coordY - agent.pos.coordY), 2)));
             
-            float score = deltaDist * Config::GetDistanceWeight() + agent.stepsTaken * Config::GetStepsTakenWeight();
+            float score = deltaDist * Config::GetDistanceWeight() + agent.stepsTaken * Config::GetStepsTakenWeight() +
+                agent.rotationsTaken * Config::GetRotationsTakenWeight();
             survivalScore.emplace_back(index++, score);
         }
         

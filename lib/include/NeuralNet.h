@@ -16,6 +16,7 @@ namespace sim
 
     struct Weight
     {
+        Weight(float w, uint16_t idx) : w(w), idx(idx) {}
         float w;
         uint16_t idx;
     };

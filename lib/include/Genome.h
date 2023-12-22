@@ -30,8 +30,8 @@ namespace sim
         */
         void DiscoverValidGenes(std::unordered_set<uint16_t>& valid, 
             std::set<std::pair<uint16_t, uint16_t>>& loopEdges,
-            std::unordered_map<uint16_t, std::vector<uint16_t>>& backEdgeMap);
-        void TrimGenome(std::unordered_set<uint16_t>& valid,
+            const std::unordered_map<uint16_t, std::unordered_set<uint16_t>>& backEdgeMap);
+        void TrimGenome(const std::unordered_set<uint16_t>& valid,
             std::set<std::pair<uint16_t, uint16_t>>& loopEdges);
 
     public:

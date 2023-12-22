@@ -43,7 +43,11 @@ namespace sim
                 sensors.emplace(key.first);
             }
             
-            weights.emplace(std::pair<uint16_t, std::vector<Weight>>(key.first, { {val.first / val.second, key.second} }));
+            auto itr = weights.emplace(std::pair<uint16_t, std::vector<Weight>>(key.first, { {val.first / val.second, key.second} }));
+            if (!itr.second)
+            {
+                itr.first->second.emplace_back(val.first / val.second, key.second);
+            }
         }
     }
 
@@ -67,7 +71,7 @@ namespace sim
         {
             uint16_t node = q.front();
             q.pop();
-            for (auto& w : weights[node])
+            for (const auto& w : weights[node])
             {
                 if (idxMap.find(w.idx) == idxMap.end())
                 {
@@ -172,10 +176,12 @@ namespace sim
         if (actions[Actions::ROTATE_LEFT] > Config::GetActivationThreshold())
         {
             newPos.dir = static_cast<Direction>((static_cast<int>(newPos.dir) - 1) % Direction::D_COUNT);
+            agentPos.Set(newPos);
         }
         if (actions[Actions::ROTATE_RIGHT] > Config::GetActivationThreshold())
         {
             newPos.dir = static_cast<Direction>((static_cast<int>(newPos.dir) + 1) % Direction::D_COUNT);
+            agentPos.Set(newPos);
         }
 
         // Second, perform movement
@@ -197,6 +203,7 @@ namespace sim
             }
         }
 
+        // Rotation is not accounted here
         if (!grid->OutOfBounds(newPos) && !grid->Occupied(newPos))
         {
             grid->Set(newPos, agentPos);

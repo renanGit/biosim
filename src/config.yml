@@ -1,28 +1,31 @@
 Grid:
-  SizeX: "160"
-  SizeY: "160"
+  SizeX: "256"
+  SizeY: "256"
 
 Agent:
   Max: "1000"
 
 Neuron:
-  Max: "128"
+  Max: "64"
 
 Genome:
   Max: "128"
   Min: "128"
 
 Activation:
-  Threshold: "0.85"
+  Threshold: "0.90"
 
 MateTopNPercent:
   TopN: "0.3"
 
 MinDominantCutPercent:
-  Min: "0.6"
+  Min: "0.55"
 
 DistanceWeight:
-  Weight: "0.8"
+  Weight: "0.5"
 
 StepsTakenWeight:
-  Weight: "0.2"
+  Weight: "0.1"
+
+RotationsTakenWeight:
+  Weight: "0.4"

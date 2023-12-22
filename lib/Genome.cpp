@@ -22,7 +22,7 @@ namespace sim
     }
 
     void Genome::DiscoverValidGenes(std::unordered_set<uint16_t>& validNodes, std::set<std::pair<uint16_t, uint16_t>>& loopEdges,
-        std::unordered_map<uint16_t, std::vector<uint16_t>>& backEdgeMap)
+        const std::unordered_map<uint16_t, std::unordered_set<uint16_t>>& backEdgeMap)
     {
         std::unordered_set<uint16_t> invalidNodes;
         std::function<bool(uint16_t)> dfs;
@@ -41,11 +41,17 @@ namespace sim
             }
 
             bool pathValid = false;
-            for (const auto& sourceNode : backEdgeMap[node])
+            for (const auto& sourceNode : backEdgeMap.at(node))
             {
-                // Only visit if not already seen.
-                if (validNodes.find(sourceNode) == validNodes.end() && invalidNodes.find(sourceNode) == invalidNodes.end())
+                if (validNodes.find(sourceNode) != validNodes.end())
                 {
+                    // Node already reached a sensor, no need to traverse path
+                    pathValid = true;
+                    continue;
+                }
+                else if (invalidNodes.find(sourceNode) == invalidNodes.end())
+                {
+                    // Only visit if not already seen.
                     validNodes.insert(sourceNode);
                     bool tmp = dfs(sourceNode);
                     if (!tmp)
@@ -90,7 +96,7 @@ namespace sim
             
             loopPath.insert(node);
             bool validPath = false;
-            for (const auto& sourceNode : backEdgeMap[node])
+            for (const auto& sourceNode : backEdgeMap.at(node))
             {
                 if (validNodes.find(sourceNode) != validNodes.end())
                 {
@@ -116,7 +122,7 @@ namespace sim
         }
     }
 
-    void Genome::TrimGenome(std::unordered_set<uint16_t>& valid, std::set<std::pair<uint16_t, uint16_t>>& loopEdges)
+    void Genome::TrimGenome(const std::unordered_set<uint16_t>& valid, std::set<std::pair<uint16_t, uint16_t>>& loopEdges)
     {
         std::vector<Gene> correctedGenome;
         // valid contains P & Q, so divide by 2 to get true size of number of edges (P -> Q)

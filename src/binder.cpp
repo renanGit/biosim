@@ -67,6 +67,9 @@ void Setup(const pybind11::dict& configs)
             case Name::StepsTakenWeight:
                 SetFloatVal("Weight", tmp, sim::Config::stepsTakenWeight);
                 break;
+            case Name::RotationsTakenWeight:
+                SetFloatVal("Weight", tmp, sim::Config::rotationsTakenWeight);
+                break;
         }
     }
 }
