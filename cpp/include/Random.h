@@ -1,6 +1,7 @@
 #pragma once
 
 #include <random>
+#include <climits>
 
 #include "Config.h"
 
@@ -36,6 +37,11 @@ namespace sim
         {
             // Weight range of [-1, 1]
             return -1.0f + static_cast<float>(distrib(gen)) / RNG_W;
+        }
+
+        inline std::mt19937 GetGen()
+        {
+            return gen;
         }
 
     private:

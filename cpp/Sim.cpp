@@ -110,7 +110,7 @@ namespace sim
         childGenes.clear();
         childGenes.insert(childGenes.begin(), parent1.genome.genome.begin() + offset1, parent1.genome.genome.begin() + cutPos1);
         childGenes.insert(childGenes.end(), parent2.genome.genome.begin() + offset2, parent2.genome.genome.begin() + cutPos2);
-        std::random_shuffle(childGenes.begin(), childGenes.end());
+        std::shuffle(childGenes.begin(), childGenes.end(), rng.GetGen());
         child.Init();
     }
 
@@ -161,7 +161,7 @@ namespace sim
             population++;
         }
 
-        std::random_shuffle(newGeneration.begin(), newGeneration.end());
+        std::shuffle(newGeneration.begin(), newGeneration.end(), rng.GetGen());
 
         agents = std::move(newGeneration);
     }
