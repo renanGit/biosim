@@ -6,7 +6,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     steps = 100
-    epochs = 10
+    epochs = 20
     mw = MainWindow(steps, epochs)
     mw.init()
     mw.show()

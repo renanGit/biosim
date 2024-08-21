@@ -1,7 +1,7 @@
 import yaml, os, imageio, numpy as np
 from PySide6.QtWidgets import QMainWindow, QWidget, QPushButton, QGridLayout
 from PySide6.QtCore import QPoint, QRect, QTimer, Qt, QSize
-from PySide6.QtGui import QPainter, QPointList, QImage
+from PySide6.QtGui import QPainter, QPointList, QImage, QBrush
 
 import biosim
 
@@ -71,6 +71,7 @@ class PlotWidget(QWidget):
     def paintEvent(self, event):
         with QPainter(self) as painter:
             rect = QRect(QPoint(0, 0), QSize(PLOT_W, PLOT_H))
+            painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
             painter.fillRect(rect, Qt.white)
             painter.scale(PLOT_W / self._sizeX, PLOT_H / self._sizeY)
             painter.drawPoints(self._points)

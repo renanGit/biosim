@@ -1,7 +1,16 @@
 src/biosim.egg-info/*
 build/*
 dist/*
+CMakeFiles/*
+cpp/CMakeFiles/*
+pyenv/*
+.vscode/*
 sim.exe
 *.gif
-pyenv/*
 __pycache__
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+darwin
+*.a
+install_manifest.txt
